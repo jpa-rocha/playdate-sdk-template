@@ -1,0 +1,20 @@
+---
+base: lua54
+name: playdate
+globals:
+  playdate:
+    any: true
+  import:
+    args:
+      - type: string
+  class:
+    args:
+      - type: string
+  Object:
+    any: true
+  kTextAlignment:
+    any: true
+  json:
+    any: true
+  sample:
+    any: true

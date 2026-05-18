@@ -1,0 +1,5 @@
+std = "playdate"
+
+[lints]
+mixed_table = "allow"
+multiple_statements = "allow"

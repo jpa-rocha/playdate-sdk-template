@@ -1,0 +1,6 @@
+name=Hello Playdate
+author=jrocha
+description=A hello world Playdate game
+bundleID=com.jrocha.helloplaydate
+version=0.1.0
+buildNumber=1

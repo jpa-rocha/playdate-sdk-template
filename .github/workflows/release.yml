@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Run linters
+        run: |
+          nix develop --command luacheck .
+          nix develop --command selene .
+
+      - name: Run tests
+        run: |
+          if [ -d "spec" ] || [ -d "test" ] || [ -d "tests" ]; then
+            nix develop --command test
+          else
+            echo "No test directory found, skipping tests"
+          fi
+
+      - name: Build .pdx game
+        run: |
+          TAG=${GITHUB_REF_NAME}
+          PROJECT=$(basename "$GITHUB_WORKSPACE")
+          nix develop --command build -s -o "${PROJECT}-${TAG}.pdx"
+          zip -r "${PROJECT}-${TAG}.pdx.zip" "${PROJECT}-${TAG}.pdx"
+
+      - name: Generate changelog
+        run: |
+          nix develop --command git cliff --current --output RELEASE_NOTES.md
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES.md
+          files: "*.pdx.zip"
+          fail_on_unmatched_files: true

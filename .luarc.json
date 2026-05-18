@@ -1,0 +1,16 @@
+{
+  "diagnostics.globals": ["import"],
+  "diagnostics.disable": ["duplicate-set-field"],
+  "runtime.builtin": {
+    "io": "disable",
+    "os": "disable",
+    "package": "disable"
+  },
+  "runtime.nonstandardSymbol": ["+=", "-=", "*=", "/=", "//=", "%=", "<<=", ">>=", "&=", "|=", "^="],
+  "runtime.version": "Lua 5.4",
+  "workspace.library": [".playdate-luacats/library", ".playdate-corelibs"],
+  "workspace.checkThirdParty": false,
+  "diagnostics.unusedLocalExclude": ["_*"],
+  "type.weakNilCheck": false,
+  "type.weakUnionCheck": false
+}
