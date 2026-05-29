@@ -130,4 +130,13 @@ jobs:
             experimental-features = nix-command flakes
 
       - name: Run OSV Scanner
-        run: nix develop --command osv-scanner scan source --recursive .
+        run: |
+          nix develop --command osv-scanner scan source --recursive . || {
+            exit_code=$?
+            # Exit code 128 = no package sources found (expected for pure Lua projects)
+            if [ $exit_code -eq 128 ]; then
+              echo "No package sources found, skipping vulnerability scan"
+              exit 0
+            fi
+            exit $exit_code
+          }
