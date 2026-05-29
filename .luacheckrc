@@ -1,5 +1,10 @@
 std = "luajit"
 
+exclude_files = {
+  ".playdate-corelibs/",
+  ".playdate-luacats/",
+}
+
 globals = {
   "playdate",
   "import",

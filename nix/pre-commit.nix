@@ -11,6 +11,7 @@
   src = ./.;
   excludes = [
     "flake.lock"
+    "^\.playdate-corelibs/"
   ];
 
   hooks = {

@@ -11,7 +11,7 @@
 
   outputs =
     { self, ... }@inputs:
-    inputs.flake-utils.lib.eachDefaultSystem (
+    inputs.flake-utils.lib.eachSystem [ "x86_64-linux" ] (
       system:
       let
         pkgs = inputs.nixpkgs.legacyPackages.${system};

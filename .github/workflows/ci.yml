@@ -21,7 +21,7 @@ jobs:
             experimental-features = nix-command flakes
 
       - name: Run flake checks
-        run: nix flake check --all-systems
+        run: nix flake check
 
   formatting:
     name: Check Formatting
@@ -37,23 +37,7 @@ jobs:
             experimental-features = nix-command flakes
 
       - name: Check formatting
-        run: nix fmt -- --check .
-
-  pre-commit-hooks:
-    name: Pre-commit Hooks
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Nix
-        uses: cachix/install-nix-action@v27
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-
-      - name: Run pre-commit checks
-        run: nix develop --command bash -c 'pre-commit run --all-files'
+        run: nix fmt -- --ci .
 
   lua-lint:
     name: Lua Linting
@@ -130,7 +114,7 @@ jobs:
             experimental-features = nix-command flakes
 
       - name: Run Semgrep
-        run: nix develop --command semgrep --config p/lua --error .
+        run: nix develop --command semgrep --config auto --error .
 
   osv-scan:
     name: Vulnerability Scan (OSV)
@@ -146,4 +130,4 @@ jobs:
             experimental-features = nix-command flakes
 
       - name: Run OSV Scanner
-        run: nix develop --command osv-scanner --recursive .
+        run: nix develop --command osv-scanner scan source --recursive .

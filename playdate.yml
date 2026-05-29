@@ -1,5 +1,5 @@
 ---
-base: lua54
+base: lua52
 name: playdate
 globals:
   playdate:
